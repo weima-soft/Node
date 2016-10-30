@@ -1,5 +1,7 @@
 exports.ServerPort = 8306;
 
+exports.UnknownFilePath = "unknown";
+
 exports.Expires = {
 
     fileMatch: /^(gif|png|jpg|js|css)$/ig,

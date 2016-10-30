@@ -1,26 +1,20 @@
-var url = require('url');
 var fs = require('fs');
-var path = require('path');
 var zlib = require('zlib');
 
 var c_app = require('../config/appconfig.js');
 
-
 var p_error = require('./errorprocessor.js');
 var p_header = require('./headerprocessor.js');
+var p_util = require('./utilprocessor.js');
 
 exports.staticResources = function (request, response) {
-	var pathname = url.parse(request.url).pathname;
-	if (pathname.slice(-1) === "/") {
-		pathname = pathname + c_app.Welcome.file;
-	}
-	var realPath = path.join("./web", path.normalize(pathname.replace(/\.\./g, "")));
+	var path = p_util.GetPath(request);
 
-	pathHandler(realPath,request, response);
+	pathHandler(path,request, response);
 }
 
 var fileHandler = function (path,request, response) {
-	var ext = p_header.ExtensionHandler(path);
+	var ext = p_util.GetExtension(path);
 	
 	var raw = fs.createReadStream(path);
 	var acceptEncoding = request.headers['accept-encoding'] || "";

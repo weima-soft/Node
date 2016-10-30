@@ -1,19 +1,10 @@
-var path = require('path');
-
 var c_app = require('../config/appconfig.js');
 var c_mime = require('../config/mimeconfig.js').MimeType;
 
-var extensionHandler = function(filePath)
-{
-	var ext = path.extname(filePath);
-	ext = ext ? ext.slice(1) : 'unknown';
-	
-	return ext;
-}
-exports.ExtensionHandler = extensionHandler;
+var p_util = require('./utilprocessor.js');
 
 exports.CommonHeaderHandler = function (filePath,stats,request,response) {
-	var ext = extensionHandler(filePath);
+	var ext = p_util.GetExtension(filePath);
 	var contentType = c_mime[ext] || "text/plain";
 	response.setHeader("Content-Type", contentType);
 
@@ -30,7 +21,6 @@ exports.CommonHeaderHandler = function (filePath,stats,request,response) {
 	if (request.headers[ifModifiedSince] && lastModified == request.headers[ifModifiedSince]) {
 		response.writeHead(304, "Not Modified");
 		response.end();
-		console.log("File" + filePath + " not modified, no need refresh")
 		return true;
 	}
 		
