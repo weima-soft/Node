@@ -1,20 +1,26 @@
 var p_mongo = require('./dbconnection.js');
 
-exports.ListAll = function (categoryName, response) {
-	p_mongo.Select(categoryName, {}, function (result) {
-		processResult(response, result)
-	});
+exports.Process = function (url, data, response) {
+	for (var categoryName in data) {
+		if (url === "/select") {
+			findByCondition(categoryName, data[categoryName], response);
+		} else if (url === "/insert") {
+			createNew(categoryName, data[categoryName], response)
+		} else {
+			//
+		}
+	}
 }
 
-exports.FindByCondition = function (categoryName, condition, response) {
+var findByCondition = function (categoryName, condition, response) {
 	p_mongo.Select(categoryName, condition, function (result) {
 		processResult(response, result)
 	});
 }
 
-exports.CreateNew = function(data,response){
-	p_mongo.Insert('tb2', data, function (result) {
-		processResult(response,result);
+var createNew = function (categoryName, data, response) {
+	p_mongo.Insert(categoryName, data, function (result) {
+		processResult(response, result);
 	})
 }
 
