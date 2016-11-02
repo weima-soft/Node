@@ -20,90 +20,91 @@
 	<section id="container">
 		<section id="main-content">
 			<section class="wrapper" ng-controller="HelpItemController">
-					<div class="col-md-3">
+					<div class="col-md-3 col-sm-12">
 						<section class="panel">
 							<div class="panel-body">
-								<input type="text" placeholder="Keyword Search"
-									class="form-control">
+								<input type="text" placeholder="Keyword Search"	class="form-control">
 							</div>
 						</section>
 						<section class="panel">
 							<div class="panel-body">
 								<form role="form" method="POST" action="">
 									<div class="form-group">
-										<label> GDS </label> <select
-											class="form-control hasCustomSelect"
-											style="-webkit-appearance: menulist-button; width: 199px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
-											<option>Amadeus</option>
-											<option>Galileo</option>
-											<option>Sabre</option>
+										<label> GDS </label> 
+										<select class="form-control hasCustomSelect" style="font-size: 12px;" >
+											<option ng-repeat="gds in GdsTypes">{{gds}}</option>
 										</select>
-										<span class="customSelect form-control" style="display: inline-block;"> 
-											<span class="customSelectInner"  style="width: 177px; display: inline-block;"> Amadeus	</span>
-										</span>
 									</div>
 									<div class="form-group">
-										<label> Category </label> <select
-											class="form-control hasCustomSelect"
-											style="-webkit-appearance: menulist-button; width: 199px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
-											<option>Air Availability</option>
-											<option>Car Availability</option>
-										</select><span class="customSelect form-control"
-											style="display: inline-block;"> <span
-											class="customSelectInner"
-											style="width: 177px; display: inline-block;"> Air Availability </span>
-										</span>
+										<label> Category </label>
+										<select class="form-control hasCustomSelect" style="font-size: 12px;" >
+											<option ng-repeat="itemCollection in ItemCollections">{{itemCollection.CategoryName}}</option>
+										</select>
 									</div>
 									<div class="form-group">
-										<label> Order By </label> <select
-											class="form-control hasCustomSelect"
-											style="-webkit-appearance: menulist-button; width: 199px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
-											<option>Alaphbet ASC</option>
-											<option>Alaphbet DESC</option>
-										</select><span class="customSelect form-control"
-											style="display: inline-block;"> <span
-											class="customSelectInner"
-											style="width: 177px; display: inline-block;"> Alaphbet ASC </span>
-										</span>
+										<label> Order By </label> 
+										<select class="form-control hasCustomSelect" style="font-size: 12px;" >
+											<option ng-repeat="order in OrderBy">{{order}}</option>
+										</select>
 									</div>
+									<!-- <div class="form-group">
+										<button id="btnAdd" class="btn btn-primary">Add</button>
+									</div> -->
 								</form>
 							</div>
 						</section>
 					</div>
-					<div class="col-md-6" >
-						<div class="tab-content" ng-repeat="itemCollection in ItemCollections">
-							<div class="tab-pane" ng-class="$index == 1 ? 'active' : ''" id="tab{{itemCollection.Id}}">
-								<div class="panel-group" id="panel{{itemCollection.Id}}" ng-repeat="item in itemCollection.Items">
+					<div class="col-md-6 col-sm-12" >
+						<div class="tab-content">
+							<div class="tab-pane" ng-class="$index == 0 ? 'active' : ''" id="tab{{itemCollection.Id}}" ng-repeat="itemCollection in ItemCollections">
+								<div class="panel-group" ng-repeat="item in itemCollection.Items">
 									<div class="panel panel-default" >
 										<div class="panel-heading">
 											<h4 class="panel-title">
-												<a href="#{{item.Id}}" data-parent="#panel{{item.Id}}" data-toggle="collapse" class="accordion-toggle">{{item.Title}} </a>
+												<a href="#{{item.Id}}" data-toggle="collapse" class="accordion-toggle">{{item.Title}} </a>
 											</h4>
 										</div>
-										<div class="panel-collapse collapse  in" id="{{item.Id}}">
+										<div class="panel-collapse collapse  out" id="{{item.Id}}">
 											<div class="panel-body" contenteditable="true">
 												<p>{{item.Content}}</p>
 											</div>
 										</div>
 									</div>
 								</div>
+								<div>
+									<ul class="pagination pagination-sm pro-page-list">
+										<li>
+											<a href="#">
+												1
+											</a>
+										</li>
+										<li>
+											<a href="#">
+												2
+											</a>
+										</li>
+										<li>
+											<a href="#">
+												3
+											</a>
+										</li>
+										<li>
+											<a href="#">
+												4
+											</a>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-3 hidden-sm">
 						<ul class="vertical-menu">
-							<li class="active"><a href="#tabcollection0" data-toggle="tab"> <i
-									class="fa fa-bullhorn"> </i> Fast link
-							</a></li>
-							<li><a href="#tabcollection1" data-toggle="tab"> <i
-									class="fa fa-bolt"> </i> Amadeus Air Availability
-							</a></li>
-							<li><a href="#tabcollection2" data-toggle="tab"> <i
-									class="fa fa-briefcase"> </i> Galileo Air Availability
-							</a></li>
-							<li><a href="#tabcollection3" data-toggle="tab"> <i
-									class="fa fa-bookmark"> </i> Sabre Air Availability
-							</a></li>
+							<li na-class="$index ==0?'active':''" ng-repeat="itemCollection in ItemCollections">
+								<a href="#tab{{itemCollection.Id}}" data-toggle="tab"> <i
+										class="fa fa-bullhorn"> </i> {{itemCollection.CategoryName}}
+								</a>
+							</li>
 						</ul>
 					</div>
 			</section>
